@@ -1,0 +1,16 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /o2o
+
+spring:
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/o2o?useUnicode=true&characterEncoding=UTF8&useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:mapping/*Mapper.xml
+  type-aliases-package: com.example.springboot_o2o.entity
+
