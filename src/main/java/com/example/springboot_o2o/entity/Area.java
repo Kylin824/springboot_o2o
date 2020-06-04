@@ -18,7 +18,7 @@ public class Area {
     // 权重/优先级
     private Integer priority;
     // 创建时间
-    private String createTime;
+    private Date createTime;
     // 修改时间
-    private String lastEditTime;
+    private Date lastEditTime;
 }

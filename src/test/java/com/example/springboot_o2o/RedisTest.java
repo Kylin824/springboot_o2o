@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 /**
  * @author kylin
@@ -35,8 +36,8 @@ public class RedisTest {
         Area area = new Area();
         area.setAreaId(1);
         area.setAreaName("GZ");
-        area.setCreateTime(LocalDateTime.now().format(dateTimeFormatter));
-        area.setLastEditTime(LocalDateTime.now().format(dateTimeFormatter));
+//        area.setCreateTime(new Date());
+        area.setLastEditTime(new Date());
         area.setPriority(1);
 
         System.out.println(redisUtils.set("area1", area));
