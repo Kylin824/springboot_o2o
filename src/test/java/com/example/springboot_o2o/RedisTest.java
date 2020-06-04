@@ -1,5 +1,6 @@
 package com.example.springboot_o2o;
 
+import com.example.springboot_o2o.entity.Area;
 import com.example.springboot_o2o.util.RedisUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,9 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * @author kylin
- * @create 2020/6/4 14:40
  */
 
 @RunWith(SpringRunner.class)
@@ -19,9 +23,23 @@ public class RedisTest {
     @Autowired
     private RedisUtils redisUtils;
 
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+
     @Test
     public void testRedisUtil() {
         System.out.println(redisUtils.set("ky", "sysu"));
         System.out.println(redisUtils.get("sandy"));
+
+        Area area = new Area();
+        area.setAreaId(1);
+        area.setAreaName("GZ");
+        area.setCreateTime(LocalDateTime.now().format(dateTimeFormatter));
+        area.setLastEditTime(LocalDateTime.now().format(dateTimeFormatter));
+        area.setPriority(1);
+
+        System.out.println(redisUtils.set("area1", area));
+        System.out.println(redisUtils.get("area1"));
     }
 }
