@@ -2,6 +2,7 @@ package com.example.springboot_o2o.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -9,7 +10,10 @@ import java.util.Date;
  */
 
 @Data
-public class Area {
+public class Area implements Serializable {
+
+
+
     // id 使用Integer默认为空  如果用int默认为0
     private Integer areaId;
     // 区域名称
