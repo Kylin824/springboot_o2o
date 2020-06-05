@@ -2,7 +2,6 @@ package com.example.springboot_o2o.entity;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /**

@@ -30,7 +30,7 @@ public class PersonInfoMapperTest {
     @Test
     public void testInsertPersonInfo() {
         PersonInfo p = new PersonInfo();
-        p.setName("huya");
+        p.setName("huya2");
         p.setGender("m");
         p.setEmail("test@test");
         p.setEnableStatus(0);
@@ -39,5 +39,6 @@ public class PersonInfoMapperTest {
         p.setLastEditTime(new Date());
 
         System.out.println(personInfoMapper.insertPersonInfo(p));
+        System.out.println(p.getUserId());
     }
 }

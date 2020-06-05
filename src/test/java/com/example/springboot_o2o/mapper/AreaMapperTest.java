@@ -25,9 +25,9 @@ public class AreaMapperTest {
     public void testQueryArea() {
         List<Area> areaList =areaMapper.queryArea();
         System.out.println(areaList.size());
-        System.out.println(areaList.get(0).toString());
-        System.out.println(areaList.get(1).toString());
-        System.out.println(areaList.get(2).toString());
+//        System.out.println(areaList.get(0).toString());
+//        System.out.println(areaList.get(1).toString());
+//        System.out.println(areaList.get(2).toString());
     }
 
 }
