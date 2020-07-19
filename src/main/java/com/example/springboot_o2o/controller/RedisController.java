@@ -7,11 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * @author kylin
- * @create 2020/6/4 15:13
- */
-
 @RestController
 @RequestMapping("/redis")
 public class RedisController {

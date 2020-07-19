@@ -1,7 +1,6 @@
 package com.example.springboot_o2o.entity;
 
 import lombok.Data;
-
 import java.util.Date;
 
 @Data
@@ -23,5 +22,4 @@ public class PersonInfo {
 
     private Date createTime;
     private Date lastEditTime;
-
 }

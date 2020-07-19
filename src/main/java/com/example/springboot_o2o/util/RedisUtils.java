@@ -1,16 +1,9 @@
 package com.example.springboot_o2o.util;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
-
 import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
-
-/**
- * @author kylin
- * @create 2020/6/4 14:50
- */
 
 @Component
 public class RedisUtils {
@@ -47,7 +40,7 @@ public class RedisUtils {
      * set with expire time
      * @param key key
      * @param value value
-     * @param time <0则无限期
+     * @param time < 0则无限期
      * @return true or false
      */
     public boolean set(String key, Object value, long time) {

@@ -8,11 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * @author kylin
- * @create 2020/6/4 21:57
- */
-
 @Service
 public class AreaServiceImpl implements AreaService {
 

@@ -2,6 +2,7 @@ package com.example.springboot_o2o.controller.superadmin;
 
 import com.example.springboot_o2o.entity.Area;
 import com.example.springboot_o2o.service.AreaService;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
