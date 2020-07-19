@@ -5,14 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- * @author kylin
- * @create 2020/6/5 10:53
- */
-
 @Repository
-public interface HeadLineMapper {
-
+public interface HeadLineDao {
     List<HeadLine> queryHeadLine(@Param("headLineCondition") HeadLine headLineCondition);
-
 }

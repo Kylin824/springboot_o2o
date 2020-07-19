@@ -16,16 +16,16 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class HeadLineMapperTest {
+public class HeadLineDaoTest {
 
     @Autowired
-    private HeadLineMapper headLineMapper;
+    private HeadLineDao headLineDao;
 
     @Test
     public void testQueryHeadLine() {
         HeadLine headLine = new HeadLine();
         headLine.setEnableStatus(0);
-        List<HeadLine> headLineList = headLineMapper.queryHeadLine(headLine);
+        List<HeadLine> headLineList = headLineDao.queryHeadLine(headLine);
         System.out.println(headLineList.size());
     }
 

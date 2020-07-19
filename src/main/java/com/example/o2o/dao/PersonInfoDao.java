@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public interface PersonInfoMapper {
+public interface PersonInfoDao {
 
     // @Select("SELECT user_id, name, profile_img, email, gender, enable_status, user_type, create_time, last_edit_time FROM tb_person_info WHERE user_id = #{userId}")
     PersonInfo queryPersonInfoById(long userId);
@@ -18,6 +18,4 @@ public interface PersonInfoMapper {
     //         "VALUES (#{name},#{profileImg},#{email},#{gender},#{enableStatus},#{userType},#{createTime},#{lastEditTime})")
     int insertPersonInfo(PersonInfo personInfo);
 
-
-    
 }

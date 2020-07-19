@@ -16,14 +16,14 @@ import java.util.Date;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class PersonInfoMapperTest {
+public class PersonInfoDaoTest {
 
     @Autowired
-    private PersonInfoMapper personInfoMapper;
+    private PersonInfoDao personInfoDao;
 
     @Test
     public void testQueryPersonInfoById() {
-        PersonInfo p = personInfoMapper.queryPersonInfoById(3);
+        PersonInfo p = personInfoDao.queryPersonInfoById(3);
         System.out.println(p.toString());
     }
 
@@ -38,7 +38,7 @@ public class PersonInfoMapperTest {
         p.setCreateTime(new Date());
         p.setLastEditTime(new Date());
 
-        System.out.println(personInfoMapper.insertPersonInfo(p));
+        System.out.println(personInfoDao.insertPersonInfo(p));
         System.out.println(p.getUserId());
     }
 }

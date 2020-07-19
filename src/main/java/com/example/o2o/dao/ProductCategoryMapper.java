@@ -16,5 +16,4 @@ public interface ProductCategoryMapper {
     int deleteProductCategory(@Param("productCategoryId") long productCategoryId,
                               @Param("shopId") long shopId);
 
-
 }
