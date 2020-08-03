@@ -17,9 +17,12 @@ public class PersonInfo {
     private String gender;
     // 用户状态
     private Integer enableStatus;
-    // 用户权限：1顾客 2店家 3超级管理员
-    private Integer userType;
+
+    private Integer customerFlag;
+    private Integer shopOwnerFlag;
+    private Integer adminFlag;
 
     private Date createTime;
     private Date lastEditTime;
+
 }

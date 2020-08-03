@@ -22,8 +22,9 @@ public class Shop {
     private Integer enableStatus;
     // 超级管理员给店家的提醒
     private String advice;
-    private Area area;
-    private PersonInfo owner;
-    private ShopCategory shopCategory;
+
+    private Area area; // <=> tb_area
+    private ShopCategory shopCategory; // <=> tb_shop_category
+    private PersonInfo owner; // <=> tb_person_info
 
 }
