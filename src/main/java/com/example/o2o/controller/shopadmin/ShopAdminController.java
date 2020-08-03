@@ -32,4 +32,8 @@ public class ShopAdminController {
 
     @RequestMapping(value = "/productedit")
     private String productEdit() { return "shop/productedit"; }
+
+    @RequestMapping(value = "/register")
+    private String register() { return "shop/register"; }
+
 }

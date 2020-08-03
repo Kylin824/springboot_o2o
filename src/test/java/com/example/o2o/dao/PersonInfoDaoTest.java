@@ -34,7 +34,6 @@ public class PersonInfoDaoTest {
         p.setGender("m");
         p.setEmail("test@test");
         p.setEnableStatus(0);
-        p.setUserType(2);
         p.setCreateTime(new Date());
         p.setLastEditTime(new Date());
 
