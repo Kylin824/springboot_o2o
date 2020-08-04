@@ -4,13 +4,17 @@ import com.example.o2o.dto.LocalAuthExecution;
 import com.example.o2o.entity.LocalAuth;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import java.io.InputStream;
+
 public interface LocalAuthService {
 
     LocalAuth getLocalAuthByUserNameAndPwd(String userName, String password);
 
     LocalAuth getLocalAuthByUserId(long userId);
 
-    LocalAuthExecution register(LocalAuth localAuth, CommonsMultipartFile profileImg) throws RuntimeException;
+    LocalAuthExecution registerOwner(LocalAuth localAuth,
+                                     InputStream profileInputStream,
+                                     String fileName) throws RuntimeException;
 
     LocalAuthExecution bindLocalAuth(LocalAuth localAuth) throws RuntimeException;
 

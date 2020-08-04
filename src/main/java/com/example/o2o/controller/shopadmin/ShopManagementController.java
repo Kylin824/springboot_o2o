@@ -1,22 +1,27 @@
 package com.example.o2o.controller.shopadmin;
 
+import com.example.o2o.dto.LocalAuthExecution;
 import com.example.o2o.dto.ShopExecution;
-import com.example.o2o.entity.Area;
-import com.example.o2o.entity.PersonInfo;
-import com.example.o2o.entity.Shop;
-import com.example.o2o.entity.ShopCategory;
+import com.example.o2o.entity.*;
+import com.example.o2o.enums.LocalAuthStateEnum;
 import com.example.o2o.enums.ShopStateEnum;
 import com.example.o2o.service.AreaService;
+import com.example.o2o.service.LocalAuthService;
 import com.example.o2o.service.ShopCategoryService;
 import com.example.o2o.service.ShopService;
 import com.example.o2o.util.CodeUtil;
 import com.example.o2o.util.HttpServletRequestUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Data;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import sun.rmi.runtime.Log;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
@@ -35,6 +40,8 @@ public class ShopManagementController {
     private ShopCategoryService shopCategoryService;
     @Autowired
     private AreaService areaService;
+    @Autowired
+    private LocalAuthService localAuthService;
 
     @GetMapping("/getshopinitinfo")
     private Map<String, Object> getShopInitInfo() {
@@ -161,7 +168,7 @@ public class ShopManagementController {
             int bytesRead = 0;
             byte[] buffer = new byte[1024];
             while ((bytesRead = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer,0, bytesRead);
+                outputStream.write(buffer, 0, bytesRead);
             }
         } catch (Exception e) {
             throw new RuntimeException("调用inputStreamToFile产生异常" + e.getMessage());
@@ -169,10 +176,10 @@ public class ShopManagementController {
             try {
                 //关闭输入输出流
                 if (outputStream != null) {
-                    outputStream.close();;
+                    outputStream.close();
                 }
                 if (inputStream != null) {
-                    inputStream.close();;
+                    inputStream.close();
                 }
             } catch (IOException ex) {
                 throw new RuntimeException("inputStreamToFile关闭IO导致异常" + ex.getMessage());
@@ -191,7 +198,7 @@ public class ShopManagementController {
                 modelMap.put("areaList", areaList);
                 modelMap.put("success", true);
             } catch (Exception e) {
-                modelMap.put("success",false);
+                modelMap.put("success", false);
                 modelMap.put("errMsg", e.getMessage());
             }
         } else {
@@ -282,8 +289,7 @@ public class ShopManagementController {
             modelMap.put("user", user);
             modelMap.put("count", se.getCount());
             modelMap.put("success", true);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             modelMap.put("success", false);
             modelMap.put("errMsg", e.getMessage());
             return modelMap;
@@ -317,10 +323,10 @@ public class ShopManagementController {
 //        return modelMap;
 //    }
 
-    @PostMapping("/sellerregister")
+    @PostMapping("/registershop")
     @ResponseBody
     private Map<String, Object> registerShop(HttpServletRequest request) {
-        Map<String, Object> modelMap = new HashMap<String, Object>();
+        Map<String, Object> modelMap = new HashMap<>();
         if (!CodeUtil.checkVerifyCode(request)) {
             modelMap.put("success", false);
             modelMap.put("errMsg", "输入了错误的验证码");
@@ -331,8 +337,7 @@ public class ShopManagementController {
         String shopStr = HttpServletRequestUtil.getString(request, "shopStr");
         MultipartHttpServletRequest multipartRequest = null;
         CommonsMultipartFile shopImg = null;
-        CommonsMultipartResolver multipartResolver =
-                new CommonsMultipartResolver(request.getSession().getServletContext());
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
         if (multipartResolver.isMultipart(request)) {
             multipartRequest = (MultipartHttpServletRequest) request;
             shopImg = (CommonsMultipartFile) multipartRequest.getFile("shopImg");
@@ -380,5 +385,80 @@ public class ShopManagementController {
             modelMap.put("errMsg", "请输入店铺信息");
         }
         return modelMap;
+    }
+
+    @PostMapping("/registerowner")
+    @ResponseBody
+    private Map<String, Object> registerShopOwner(HttpServletRequest request) {
+        Map<String, Object> modelMap = new HashMap<>();
+        if (!CodeUtil.checkVerifyCode(request)) {
+            modelMap.put("success", false);
+            modelMap.put("errMsg", "输入了错误的验证码");
+            return modelMap;
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        LocalAuth owner = null;
+        String localAuthStr = HttpServletRequestUtil.getString(request, "localAuthStr");
+        MultipartFile ownerImg = null;
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
+        if (multipartResolver.isMultipart(request)) {
+            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+            ownerImg =  multipartRequest.getFile("thumbnail");
+        } else {
+            modelMap.put("success", false);
+            modelMap.put("errMsg", "上传图片不能为空");
+            return modelMap;
+        }
+        try {
+            owner = mapper.readValue(localAuthStr, LocalAuth.class);
+        } catch (Exception e) {
+            modelMap.put("success", false);
+            modelMap.put("errMsg", e.toString());
+            return modelMap;
+        }
+        if (owner != null && ownerImg != null) {
+            try {
+                LocalAuthExecution res = localAuthService.registerOwner(owner, ownerImg.getInputStream(), ownerImg.getOriginalFilename());
+                if (res.getState() == LocalAuthStateEnum.SUCCESS.getState()) {
+                    modelMap.put("success", true);
+                } else {
+                    modelMap.put("success", false);
+                    modelMap.put("errMsg", res.getStateInfo());
+                }
+            } catch (RuntimeException | IOException e) {
+                modelMap.put("success", false);
+                modelMap.put("errMsg", e.toString());
+                return modelMap;
+            }
+        } else {
+            modelMap.put("success", false);
+            modelMap.put("errMsg", "请输入信息");
+        }
+        return modelMap;
+    }
+
+    @PostMapping("/loginowner")
+    @ResponseBody
+    private Object loginShopOwner(@RequestBody String jsonStr) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, Object> modelMap = new HashMap<>();
+        LoginUser user = null;
+        try {
+            user = objectMapper.readValue(jsonStr, LoginUser.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        if (user != null && user.getNeedVerify()) {
+            System.out.println(user.getVerifyCodeFormFrontend());
+        }
+
+    }
+
+    @Data
+    static class LoginUser {
+        String userName;
+        String passwrod;
+        String verifyCodeFormFrontend;
+        Boolean needVerify;
     }
 }

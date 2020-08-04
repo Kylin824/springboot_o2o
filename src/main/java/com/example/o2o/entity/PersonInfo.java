@@ -13,14 +13,19 @@ public class PersonInfo {
     private String profileImg;
     // 用户邮箱
     private String email;
+
+    private String phone;
+
     // 用户性别
     private String gender;
     // 用户状态
     private Integer enableStatus;
 
-    private Integer customerFlag;
-    private Integer shopOwnerFlag;
-    private Integer adminFlag;
+    // 用户权限：1顾客 2店家 3超级管理员
+    private Integer userType;
+//    private Integer customerFlag;
+//    private Integer shopOwnerFlag;
+//    private Integer adminFlag;
 
     private Date createTime;
     private Date lastEditTime;

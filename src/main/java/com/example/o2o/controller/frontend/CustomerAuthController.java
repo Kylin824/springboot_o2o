@@ -52,7 +52,7 @@ public class CustomerAuthController {
             LocalAuth localAuth = localAuthService
                     .getLocalAuthByUserNameAndPwd(userName, password);
             if (localAuth != null) {
-                if (localAuth.getPersonInfo().getCustomerFlag() == 1) {
+                if (localAuth.getPersonInfo().getUserType() == 0) {
                     modelMap.put("success", true);
                     request.getSession().setAttribute("user",
                             localAuth.getPersonInfo());
@@ -71,65 +71,64 @@ public class CustomerAuthController {
         return modelMap;
     }
 
-    @RequestMapping(value = "/customerregister", method = RequestMethod.POST)
-    @ResponseBody
-    private Map<String, Object> customerRegister(HttpServletRequest request) {
-        Map<String, Object> modelMap = new HashMap<String, Object>();
-        if (!CodeUtil.checkVerifyCode(request)) {
-            modelMap.put("success", false);
-            modelMap.put("errMsg", "输入了错误的验证码");
-            return modelMap;
-        }
-        ObjectMapper mapper = new ObjectMapper();
-        LocalAuth localAuth = null;
-        String localAuthStr = HttpServletRequestUtil.getString(request, "localAuthStr");
-        MultipartHttpServletRequest multipartRequest = null;
-        CommonsMultipartFile profileImg = null;
-        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
-                request.getSession().getServletContext());
-        if (multipartResolver.isMultipart(request)) {
-            multipartRequest = (MultipartHttpServletRequest) request;
-            profileImg = (CommonsMultipartFile) multipartRequest.getFile("thumbnail");
-        } else {
-            modelMap.put("success", false);
-            modelMap.put("errMsg", "上传图片不能为空");
-            return modelMap;
-        }
-        try {
-            localAuth = mapper.readValue(localAuthStr, LocalAuth.class);
-        } catch (Exception e) {
-            modelMap.put("success", false);
-            modelMap.put("errMsg", e.toString());
-            return modelMap;
-        }
-        if (localAuth != null && localAuth.getPassword() != null && localAuth.getUserName() != null) {
-            try {
-                PersonInfo user = (PersonInfo) request.getSession()
-                        .getAttribute("user");
-                if (user != null && localAuth.getPersonInfo() != null) {
-                    localAuth.getPersonInfo().setUserId(user.getUserId());
-                }
-                localAuth.getPersonInfo().setCustomerFlag(1);
-                localAuth.getPersonInfo().setAdminFlag(0);
-                LocalAuthExecution le = localAuthService.register(localAuth, profileImg);
-                if (le.getState() == LocalAuthStateEnum.SUCCESS.getState()) {
-                    modelMap.put("success", true);
-                } else {
-                    modelMap.put("success", false);
-                    modelMap.put("errMsg", le.getStateInfo());
-                }
-            } catch (RuntimeException e) {
-                modelMap.put("success", false);
-                modelMap.put("errMsg", e.toString());
-                return modelMap;
-            }
-
-        } else {
-            modelMap.put("success", false);
-            modelMap.put("errMsg", "请输入注册信息");
-        }
-        return modelMap;
-    }
+//    @RequestMapping(value = "/customerregister", method = RequestMethod.POST)
+//    @ResponseBody
+//    private Map<String, Object> customerRegister(HttpServletRequest request) {
+//        Map<String, Object> modelMap = new HashMap<String, Object>();
+//        if (!CodeUtil.checkVerifyCode(request)) {
+//            modelMap.put("success", false);
+//            modelMap.put("errMsg", "输入了错误的验证码");
+//            return modelMap;
+//        }
+//        ObjectMapper mapper = new ObjectMapper();
+//        LocalAuth localAuth = null;
+//        String localAuthStr = HttpServletRequestUtil.getString(request, "localAuthStr");
+//        MultipartHttpServletRequest multipartRequest = null;
+//        CommonsMultipartFile profileImg = null;
+//        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
+//                request.getSession().getServletContext());
+//        if (multipartResolver.isMultipart(request)) {
+//            multipartRequest = (MultipartHttpServletRequest) request;
+//            profileImg = (CommonsMultipartFile) multipartRequest.getFile("thumbnail");
+//        } else {
+//            modelMap.put("success", false);
+//            modelMap.put("errMsg", "上传图片不能为空");
+//            return modelMap;
+//        }
+//        try {
+//            localAuth = mapper.readValue(localAuthStr, LocalAuth.class);
+//        } catch (Exception e) {
+//            modelMap.put("success", false);
+//            modelMap.put("errMsg", e.toString());
+//            return modelMap;
+//        }
+//        if (localAuth != null && localAuth.getPassword() != null && localAuth.getUserName() != null) {
+//            try {
+//                PersonInfo user = (PersonInfo) request.getSession()
+//                        .getAttribute("user");
+//                if (user != null && localAuth.getPersonInfo() != null) {
+//                    localAuth.getPersonInfo().setUserId(user.getUserId());
+//                }
+//                localAuth.getPersonInfo().setUserType(1);
+//                LocalAuthExecution le = localAuthService.registerOwner(localAuth, profileImg);
+//                if (le.getState() == LocalAuthStateEnum.SUCCESS.getState()) {
+//                    modelMap.put("success", true);
+//                } else {
+//                    modelMap.put("success", false);
+//                    modelMap.put("errMsg", le.getStateInfo());
+//                }
+//            } catch (RuntimeException e) {
+//                modelMap.put("success", false);
+//                modelMap.put("errMsg", e.toString());
+//                return modelMap;
+//            }
+//
+//        } else {
+//            modelMap.put("success", false);
+//            modelMap.put("errMsg", "请输入注册信息");
+//        }
+//        return modelMap;
+//    }
 
     @RequestMapping(value = "/bindlocalauth", method = RequestMethod.POST)
     @ResponseBody
@@ -210,11 +209,12 @@ public class CustomerAuthController {
 
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     @ResponseBody
-    private Map<String, Object> customerLogoutCheck(HttpServletRequest request,
-                                                    HttpServletResponse response) throws IOException {
+    private Map<String, Object> customerLogoutCheck(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Object> modelMap = new HashMap<String, Object>();
         request.getSession().setAttribute("user", null);
         modelMap.put("success", true);
         return modelMap;
     }
+
+
 }

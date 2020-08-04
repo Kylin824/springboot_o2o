@@ -18,4 +18,6 @@ public interface PersonInfoDao {
     //         "VALUES (#{name},#{profileImg},#{email},#{gender},#{enableStatus},#{userType},#{createTime},#{lastEditTime})")
     int insertPersonInfo(PersonInfo personInfo);
 
+    int updatePersonInfo(PersonInfo personInfo);
+
 }

@@ -1,14 +1,14 @@
 $(function() {
-	var loginUrl = '/o2o/shopadmin/ownerlogincheck';
+	var loginUrl = '/o2o/shopadmin/loginowner';
 	var loginCount = 0;
 
 	$('#submit').click(function() {
 		var userName = $('#username').val();
 		var password = $('#psw').val();
-		var verifyCodeActual = $('#j_captcha').val();
+		var verifyCodeFormFrontend = $('#j_captcha').val();
 		var needVerify = false;
 		if (loginCount >= 3) {
-			if (!verifyCodeActual) {
+			if (!verifyCodeFormFrontend) {
 				$.toast('请输入验证码！');
 				return;
 			} else {
@@ -24,13 +24,13 @@ $(function() {
 			data : {
 				userName : userName,
 				password : password,
-				verifyCodeActual : verifyCodeActual,
+				verifyCodeFormFrontend : verifyCodeFormFrontend,
 				needVerify : needVerify
 			},
 			success : function(data) {
 				if (data.success) {
 					$.toast('登录成功！');
-					window.location.href = '/o2o/shop/shoplist';
+					window.location.href = '/o2o/shopadmin/shoplist';
 				} else {
 					$.toast('登录失败！');
 					loginCount++;
@@ -43,6 +43,6 @@ $(function() {
 	});
 
 	$('#register').click(function() {
-		window.location.href = '/o2o/shop/register';
+		window.location.href = '/o2o/shopadmin/ownerregister';
 	});
 });

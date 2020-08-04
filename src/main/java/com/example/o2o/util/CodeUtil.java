@@ -11,7 +11,7 @@ public class CodeUtil {
         String verifyCodeExpected = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
 
         // 用户输入的验证码值
-        String verifyCodeReceived = HttpServletRequestUtil.getString(request, "verifyCodeReceived");
+        String verifyCodeReceived = HttpServletRequestUtil.getString(request, "verifyCodeFormFrontend");
 
         System.out.println("verifyCodeExpected : " + verifyCodeExpected);
         System.out.println("verifyCodeReceived : " + verifyCodeReceived);

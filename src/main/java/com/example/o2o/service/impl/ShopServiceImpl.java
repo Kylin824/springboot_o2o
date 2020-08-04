@@ -68,6 +68,7 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
+    @Transactional
     public ShopExecution addShopPlus(Shop shop, InputStream shopImgInputStream, String fileName) {
         // 判断shop是否为空
         if (shop == null) {

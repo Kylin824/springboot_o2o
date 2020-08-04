@@ -1,5 +1,5 @@
 $(function() {
-	var registerUrl = '/o2o/shopadmin/ownerregister';
+	var registerUrl = '/o2o/shopadmin/registerowner';
 	$('#submit').click(function() {
 		var localAuth = {};
 		var personInfo = {};
@@ -19,7 +19,7 @@ $(function() {
 			$.toast('请输入验证码！');
 			return;
 		}
-		formData.append("verifyCodeActual", verifyCodeActual);
+		formData.append("verifyCodeFormFrontend", verifyCodeActual);
 		$.ajax({
 			url : registerUrl,
 			type : 'POST',
@@ -40,6 +40,6 @@ $(function() {
 	});
 
 	$('#back').click(function() {
-		window.location.href = '/myo2o/shop/ownerlogin';
+		window.location.href = '/o2o/shopadmin/ownerlogin';
 	});
 });
