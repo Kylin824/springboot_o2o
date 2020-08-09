@@ -1,5 +1,5 @@
 $(function() {
-	var loginUrl = '/o2o/shopadmin/loginowner';
+	var loginUrl = '/o2o/shopadmin/login';
 	var loginCount = 0;
 
 	$('#submit').click(function() {

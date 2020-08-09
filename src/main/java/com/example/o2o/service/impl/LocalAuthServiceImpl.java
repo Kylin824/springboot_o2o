@@ -69,6 +69,7 @@ public class LocalAuthServiceImpl implements LocalAuthService {
             }
 
             localAuth.setUserId(user.getUserId());
+            localAuth.setPassword();
             localAuth.setCreateTime(new Date());
             localAuth.setLastEditTime(new Date());
             effectedNum = localAuthDao.insertLocalAuth(localAuth);

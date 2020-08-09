@@ -1,4 +1,4 @@
-package com.example.o2o.controller.frontend;
+package com.example.o2o.controller.customeradmin;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -28,13 +28,13 @@ import com.example.o2o.util.HttpServletRequestUtil;
 import com.example.o2o.util.MDUtil;
 
 @Controller
-@RequestMapping("/frontend")
+@RequestMapping("/customer")
 public class CustomerAuthController {
 
     @Autowired
     private LocalAuthService localAuthService;
 
-    @PostMapping("/customerlogincheck")
+    @PostMapping("/login")
     @ResponseBody
     private Map<String, Object> customerLoginCheck(HttpServletRequest request) {
         Map<String, Object> modelMap = new HashMap<String, Object>();

@@ -1,5 +1,5 @@
 $(function() {
-	var registerUrl = '/o2o/shopadmin/registerowner';
+	var registerUrl = '/o2o/shopadmin/register';
 	$('#submit').click(function() {
 		var localAuth = {};
 		var personInfo = {};
